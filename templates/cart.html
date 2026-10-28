@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Cart</h2>
+{% if items %}
+<table>
+  <tr><th>Title</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr>
+  {% for i in items %}
+  <tr>
+    <td>{{ i[1] }}</td><td>₹{{ i[2] }}</td>
+    <td>
+      <form method="post" action="{{ url_for('cart_add') }}" class="inline">
+        <input type="hidden" name="book_id" value="{{ i[0] }}">
+        <input class="sm" type="number" name="qty" value="{{ i[3] }}" min="1">
+        <button>Update</button>
+      </form>
+    </td>
+    <td>₹{{ i[4] }}</td>
+    <td>
+      <form method="post" action="{{ url_for('cart_remove') }}" class="inline">
+        <input type="hidden" name="book_id" value="{{ i[0] }}">
+        <button class="danger">Remove</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+  <tr><th colspan="3">Total</th><th colspan="2">₹{{ total }}</th></tr>
+</table>
+<br>
+<form method="post" action="{{ url_for('checkout') }}"><button>Checkout</button></form>
+{% else %}
+<p>Your cart is empty. <a href="{{ url_for('index') }}">Browse books</a></p>
+{% endif %}
+{% endblock %}

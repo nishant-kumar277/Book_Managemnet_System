@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Order History</h2>
+<table>
+  <tr><th>Order #</th><th>Date</th><th>Status</th><th>Order total</th><th>Book</th><th>Qty</th><th>Price</th></tr>
+  {% for r in rows %}
+  <tr>
+    <td>{{ r[0] }}</td><td>{{ r[1].strftime('%d %b %Y') }}</td><td>{{ r[2] }}</td>
+    <td>₹{{ r[3] }}</td><td>{{ r[4] }}</td><td>{{ r[5] }}</td><td>₹{{ r[6] }}</td>
+  </tr>
+  {% else %}
+  <tr><td colspan="7">No orders yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

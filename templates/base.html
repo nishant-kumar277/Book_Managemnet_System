@@ -1,0 +1,51 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Online Bookstore</title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 0; background: #f6f7f9; color: #222; }
+    nav { background: #1f3a5f; padding: 12px 24px; display: flex; gap: 18px; align-items: center; }
+    nav a { color: #fff; text-decoration: none; }
+    nav .brand { font-weight: 700; margin-right: auto; }
+    main { max-width: 900px; margin: 24px auto; padding: 0 16px; }
+    table { width: 100%; border-collapse: collapse; background: #fff; }
+    th, td { padding: 8px 10px; border-bottom: 1px solid #e3e6ea; text-align: left; }
+    input, select, button { padding: 7px 10px; margin: 3px 0; font-size: 14px; }
+    button { background: #1f3a5f; color: #fff; border: 0; border-radius: 4px; cursor: pointer; }
+    button.danger { background: #b3261e; }
+    form.card { background: #fff; padding: 16px; max-width: 360px; border-radius: 6px; }
+    form.card input { display: block; width: 100%; box-sizing: border-box; }
+    .msg { padding: 10px 14px; border-radius: 4px; margin-bottom: 10px; }
+    .ok { background: #dff3e4; } .err { background: #fde2e0; }
+    form.inline { display: inline; }
+    input.sm { width: 70px; }
+  </style>
+</head>
+<body>
+<nav>
+  <span class="brand">📚 Bookstore</span>
+  {% if session.user_id %}
+    <a href="{{ url_for('index') }}">Books</a>
+    <a href="{{ url_for('cart') }}">Cart</a>
+    <a href="{{ url_for('orders') }}">Orders</a>
+    <a href="{{ url_for('profile') }}">Profile</a>
+    {% if session.role == 'ADMIN' %}
+      <a href="{{ url_for('admin') }}">Admin</a>
+      <a href="{{ url_for('reports') }}">Reports</a>
+    {% endif %}
+    <a href="{{ url_for('logout') }}">Logout</a>
+  {% else %}
+    <a href="{{ url_for('login') }}">Login</a>
+    <a href="{{ url_for('register') }}">Register</a>
+  {% endif %}
+</nav>
+<main>
+  {% for cat, m in get_flashed_messages(with_categories=true) %}
+    <div class="msg {{ cat }}">{{ m }}</div>
+  {% endfor %}
+  {% block content %}{% endblock %}
+</main>
+</body>
+</html>

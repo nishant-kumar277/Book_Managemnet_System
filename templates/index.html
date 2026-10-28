@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Browse Books</h2>
+<form method="get">
+  <input name="q" value="{{ q }}" placeholder="Search title, author or category">
+  <button>Search</button>
+</form>
+<br>
+<table>
+  <tr><th>Title</th><th>Author</th><th>Category</th><th>Price</th><th>Stock</th><th></th></tr>
+  {% for b in books %}
+  <tr>
+    <td>{{ b[1] }}</td><td>{{ b[2] }}</td><td>{{ b[3] or '' }}</td>
+    <td>₹{{ b[4] }}</td><td>{{ b[5] }}</td>
+    <td>
+      {% if b[5] > 0 %}
+      <form method="post" action="{{ url_for('cart_add') }}" class="inline">
+        <input type="hidden" name="book_id" value="{{ b[0] }}">
+        <input class="sm" type="number" name="qty" value="1" min="1" max="{{ b[5] }}">
+        <button>Add</button>
+      </form>
+      {% else %}Out of stock{% endif %}
+    </td>
+  </tr>
+  {% else %}
+  <tr><td colspan="6">No books found.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

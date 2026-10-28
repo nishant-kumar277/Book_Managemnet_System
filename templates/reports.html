@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Best-Selling Books</h2>
+<table>
+  <tr><th>Title</th><th>Copies sold</th><th>Revenue</th></tr>
+  {% for b in best %}
+  <tr><td>{{ b[0] }}</td><td>{{ b[1] }}</td><td>₹{{ b[2] }}</td></tr>
+  {% else %}
+  <tr><td colspan="3">No sales yet.</td></tr>
+  {% endfor %}
+</table>
+
+<h2>Sales by Day</h2>
+<table>
+  <tr><th>Date</th><th>Orders</th><th>Revenue</th></tr>
+  {% for d in daily %}
+  <tr><td>{{ d[0].strftime('%d %b %Y') }}</td><td>{{ d[1] }}</td><td>₹{{ d[2] }}</td></tr>
+  {% else %}
+  <tr><td colspan="3">No sales yet.</td></tr>
+  {% endfor %}
+</table>
+{% endblock %}

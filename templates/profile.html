@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>My Profile</h2>
+<form method="post" class="card">
+  <label>Email (cannot be changed)</label>
+  <input value="{{ u[1] }}" disabled>
+  <label>Name</label>
+  <input name="name" value="{{ u[0] }}" required>
+  <label>Address</label>
+  <input name="address" value="{{ u[2] or '' }}">
+  <button>Save</button>
+</form>
+{% endblock %}

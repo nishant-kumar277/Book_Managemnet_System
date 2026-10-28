@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+{% block content %}
+<h2>Admin – Books</h2>
+
+<form method="post" class="card" style="max-width:none">
+  <input type="hidden" name="action" value="add">
+  <strong>Add a book</strong><br>
+  <input name="title" placeholder="Title" required>
+  <input name="author" placeholder="Author" required>
+  <input name="category" placeholder="Category">
+  <input name="price" type="number" step="0.01" min="0" placeholder="Price" required>
+  <input name="qty" type="number" min="0" placeholder="Qty" required>
+  <button>Add</button>
+</form>
+<br>
+<table>
+  <tr><th>ID</th><th>Title</th><th>Author</th><th>Update price / qty</th><th></th></tr>
+  {% for b in books %}
+  <tr>
+    <td>{{ b[0] }}</td><td>{{ b[1] }}</td><td>{{ b[2] }}</td>
+    <td>
+      <form method="post" class="inline">
+        <input type="hidden" name="action" value="update">
+        <input type="hidden" name="book_id" value="{{ b[0] }}">
+        <input class="sm" name="price" type="number" step="0.01" value="{{ b[4] }}">
+        <input class="sm" name="qty" type="number" value="{{ b[5] }}">
+        <button>Save</button>
+      </form>
+    </td>
+    <td>
+      <form method="post" class="inline" onsubmit="return confirm('Remove this book?')">
+        <input type="hidden" name="action" value="remove">
+        <input type="hidden" name="book_id" value="{{ b[0] }}">
+        <button class="danger">Remove</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+
+<h2>Admin – Orders</h2>
+<table>
+  <tr><th>Order #</th><th>User</th><th>Date</th><th>Total</th><th>Status</th></tr>
+  {% for o in orders %}
+  <tr>
+    <td>{{ o[0] }}</td><td>{{ o[1] }}</td><td>{{ o[2].strftime('%d %b %Y') }}</td><td>₹{{ o[3] }}</td>
+    <td>
+      <form method="post" class="inline">
+        <input type="hidden" name="action" value="status">
+        <input type="hidden" name="order_id" value="{{ o[0] }}">
+        <select name="status">
+          {% for s in ['PENDING','PROCESSING','SHIPPED','DELIVERED'] %}
+          <option {{ 'selected' if s == o[4] }}>{{ s }}</option>
+          {% endfor %}
+        </select>
+        <button>Update</button>
+      </form>
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
